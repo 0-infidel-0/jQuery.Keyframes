@@ -33,6 +33,7 @@
 
     $.keyframe = {
         debug: false,
+        propagation:false,
         getVendorPrefix: function() {
             return vendorPrefix;
         },
@@ -157,7 +158,12 @@
                     type = type.toLowerCase();
                 }
                 var evt = pfx[i] + type;
-                element.off(evt).on(evt, callback);
+                element.off(evt).on(evt, function(e){
+                        callback();
+                        if(!$.keyframe.propagation){
+                            e.stopPropagation();
+                        }
+                    });
             }
         };
 
